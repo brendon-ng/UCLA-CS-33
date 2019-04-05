@@ -1,7 +1,7 @@
-# UCLA CS 31 Projects and Assignments
+# UCLA CS 33 Projects and Assignments
 #### Brendon Ng
-#### Fall 2018
-#### Prof. David A. Smallberg
-Included are all projects and programming assignments from CS 31 taken during the Fall of 2018 at UCLA. All assignments are programmed in C++. <br/><br/>
+#### Spring 2019
+#### Prof. Glenn Reinman
+Included are all projects and programming assignments from CS 33: Computer Organization taken during the Spring of 2019 at UCLA. <br/><br/>
 
 
