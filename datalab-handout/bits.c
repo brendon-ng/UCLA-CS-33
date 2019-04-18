@@ -139,7 +139,8 @@ NOTES:
  *   Rating: 4
  */
 int bitParity(int x) {
-  return 2;
+       
+       return 1;
 }
 /* 
  * rotateRight - Rotate x to the right by n
@@ -150,7 +151,15 @@ int bitParity(int x) {
  *   Rating: 3 
  */
 int rotateRight(int x, int n) {
-  return 2; 
+  /* Save the n bits on the right, shift x right n bits, clear the n bits on
+     the left of our new x, then replace the saved bits into that spot.
+  */
+  int rightNBits = ((~(~0 << n)) & x) << (32 + (~n+1));
+  x = x >> n;
+  int TMin = 1 << 31;
+  int leftNBits = (TMin >> n) << 1;
+  x = x & (~leftNBits);
+  return x | rightNBits; 
 }
 /* 
  * byteSwap - swaps the nth byte and the mth byte
@@ -162,6 +171,8 @@ int rotateRight(int x, int n) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
+  /* Save the nth byte and the mth byte, clear those bytes from the original
+     x, then replace them but switched */
   int nShift = n << 3;
   int mShift = m << 3;
   int nByte = 255 << nShift;    //All 1's in the nth byte, 0's elsewhere
@@ -181,8 +192,10 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 1
  */
 int fitsShort(int x) {
-  int left17bits = (1 << 31) >> 16;
-  int allMatching = ((left17bits & x) >> 15);
+  /* If x fits in a 16-bit integer, left 17 bits need to be all 1's or all 0's
+     so they can be truncated with an arithmetic shift w/o changing the value
+  */
+  int allMatching = ((~0 & x) >> 15);
   return !allMatching | !(allMatching + 1);
   
 }
@@ -194,6 +207,9 @@ int fitsShort(int x) {
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
+  /* negate x and y and use | so it returns 1 if there was a 0 originally, then
+     we negate this because we want 1's where there were no 0's
+  */
   return ~(~x | ~y);
 }
 /* 
@@ -205,7 +221,15 @@ int bitAnd(int x, int y) {
  *   Rating: 3
  */
 int subOK(int x, int y) {
-  return 2;
+  /* If the two operands have the same sign, subtraction will always be ok.
+     If they have different signs, we can tell subtraction caused an overflow
+     if the result has the same sign as the second operand 
+  */
+  int signX = (x >> 31) & 1;
+  int signY = (y >> 31) & 1;
+  int signSub = ((x+ (~y+1)) >> 31) & 1;
+  int sameSign = !(signX ^ signY);
+  return ((!sameSign) & (signY ^ signSub)) | sameSign;
 }
 /* 
  * isGreater - if x > y  then return 1, else return 0 
@@ -215,7 +239,16 @@ int subOK(int x, int y) {
  *   Rating: 3
  */
 int isGreater(int x, int y) {
-  return 2;
+  /* If the signs of x and y are different we can easily tell if x is greater
+     if they are the same, we can safely do subtraction y-x and if its negative
+     then x is greater.
+  */
+  int signX = x >> 31;
+  int signY = y >> 31;
+  int sameSign = !(signX ^ signY);
+  int test1 = (!sameSign) & ((!signX) & signY);
+  int test2 = sameSign & (((y + (~x+1)) >> 31) & 1);
+  return test1 | test2;
 }
 /* 
  * fitsBits - return 1 if x can be represented as an 
@@ -227,7 +260,12 @@ int isGreater(int x, int y) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  return 2;
+  /* If x fits in an n-bit integer, the right n-1 bits are the only ones that 
+     matter. The rest need to be all 0's or all 1's so they can be truncated.
+  */
+  int toShift = n + ~0;
+  int allMatching = ((~0 & x) >> toShift);
+  return !allMatching | !(allMatching + 1);
 }
 /* 
  * negate - return -x 
@@ -237,7 +275,9 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  /* We take advantage of the complement operator, but complementing a number
+     causes it to be off by 1 so we add 1. */
+  return ~x + 1;
 }
 /*
  * isTmax - returns 1 if x is the maximum, two's complement number,
@@ -247,6 +287,12 @@ int negate(int x) {
  *   Rating: 1
  */
 int isTmax(int x) {
+  /* It is known that Tmax+1=Tmin, Tmin+Tmax = -1, and Tmin+Tmin = 0.
+     We check that these conditions hold because x should be Tmax. 
+     However, when x=-1, these properties will also be satisfied because
+     Tmin will be zero, so we use !tMin and check that it must be zero ensuring
+     that x=-1 will not return true. 
+  */ 
   int tMin = x+1;
   int neg1 = tMin + x;
   int zero = (!tMin) | (tMin + tMin);
