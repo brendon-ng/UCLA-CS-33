@@ -138,9 +138,21 @@ NOTES:
  *   Max ops: 20
  *   Rating: 4
  */
+
 int bitParity(int x) {
-       
-       return 1;
+  /* By splitting a binary string in half and XOR'ing the two halves, in the 
+     left-most half of that result will contain an odd number of 1's if the 
+     string had an odd number of 1's, so we cut the string in half until we 
+     reach one bit which is a 1 if there were an odd nubmer of 1's in the
+     original string. If # of 1's is odd then # of 0's is odd.
+   */
+  int half = x ^ (x >> 16);
+  int quarter = half ^ (half >> 8);
+  int eighth = quarter ^ (quarter >> 4);
+  int sixteenth = eighth ^ (eighth >> 2);
+  int one = sixteenth ^ (sixteenth >> 1);
+
+  return one & 1;
 }
 /* 
  * rotateRight - Rotate x to the right by n
@@ -155,10 +167,9 @@ int rotateRight(int x, int n) {
      the left of our new x, then replace the saved bits into that spot.
   */
   int rightNBits = ((~(~0 << n)) & x) << (32 + (~n+1));
-  x = x >> n;
-  int TMin = 1 << 31;
-  int leftNBits = (TMin >> n) << 1;
-  x = x & (~leftNBits);
+  int shiftedX = x >> n;
+  int leftNBits = ((1 << 31) >> n) << 1;
+  x = shiftedX & (~leftNBits);
   return x | rightNBits; 
 }
 /* 
