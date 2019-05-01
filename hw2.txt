@@ -1,0 +1,28 @@
+Brendon Ng
+304-925-492
+UCLA CS 33 Lec 1 Dis 1G
+Proj. Glenn Reinman
+
+Homework 2
+
+magic8ball is a 3D array of chars (1 byte each)
+
+magic8ball begins at memory address 0x7fffffffe000.
+
+To find the values in magic8ball[3][4], we find the starting address of this
+array and take the next 8 bytes as elements of this array.
+
+magic8ball[3][4] starts at 3*8*8 + 4*8 bytes from the beginning of magic8ball
+since the start of magic8ball[3] is 3 2d array sizes from the start of 
+magic8ball and magic8ball[3][4] is 4 1d array sizes from the start of that.
+
+magic8ball[3][4] is at memory address 
+0x7fffffffe000 + 224 bytes = 0x7fffffffe0e0
+
+Starting at 0x7fffffffe0e0, the next 8 bytes have values:
+
+0x57 0x72 0x6f 0x6e 0x67 0x00 0x00 0x00
+ W    r    o    n    g   Null Null Null
+
+THE APPLICATION RETURNS:
+"Wrong"
