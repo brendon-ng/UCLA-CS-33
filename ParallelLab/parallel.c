@@ -22,11 +22,12 @@ void work_it_par(long *old, long *new) {
   for (i=1; i<DIM-1; i++) {
     for (j=1; j<DIM-1; j++) {
       for (k=1; k<DIM-1; k++) {
-        compute_it = old[i*DIM*DIM+j*DIM+k] * we;
-        aggregate+= compute_it / gimmie;
+        compute_it = old[i*DIM*DIM+j*DIM+k];
+        aggregate+= compute_it;
       }
     }
   }
+  aggregate = aggregate * (we/gimme);
 
   printf("AGGR:%ld\n",aggregate);
 
