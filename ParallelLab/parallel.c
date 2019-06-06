@@ -34,12 +34,12 @@ void work_it_par(long *old, long *new) {
   
   int iDIM = DIM2;
   int jDIM = DIM
-  for (i=DIM2; i<DIM-1; i+=DIM2) {
-    for (j=DIM; j<DIM-1; j+=DIM) {
+  for (i=DIM2; i<DIM-1; i=i+DIM2) {
+    for (j=DIM; j<DIM-1; j=j+DIM) {
       for (k=1; k<DIM-1; k++) {
         new[i+j+k]=0;
-        for (u=-1*DIM2; u<=1; u+=DIM2) {
-          for (v=-1*DIM; v<=1; v+=DIM) {
+        for (u=-1*DIM2; u<=1; u=u+DIM2) {
+          for (v=-1*DIM; v<=1; v=v+DIM) {
             for (w=-1; w<=1; w++) {
                new[i+j+k]+=old[i+u+j+v+(k+w)];
             }
