@@ -17,11 +17,12 @@ void work_it_par(long *old, long *new) {
   long compute_it;
   long aggregate=1.0;
   long gimmie = gimmie_the_func();
+  long we = we_need_the_func();
   
   for (i=1; i<DIM-1; i++) {
     for (j=1; j<DIM-1; j++) {
       for (k=1; k<DIM-1; k++) {
-        compute_it = old[i*DIM*DIM+j*DIM+k] * we_need_the_func();
+        compute_it = old[i*DIM*DIM+j*DIM+k] * we;
         aggregate+= compute_it / gimmie;
       }
     }
