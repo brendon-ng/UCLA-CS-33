@@ -27,7 +27,7 @@ void work_it_par(long *old, long *new) {
       }
     }
   }
-  aggregate = aggregate * (we/gimme);
+  aggregate = aggregate * (we/gimmie);
 
   printf("AGGR:%ld\n",aggregate);
 
