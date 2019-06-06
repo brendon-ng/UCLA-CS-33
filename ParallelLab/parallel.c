@@ -33,7 +33,7 @@ void work_it_par(long *old, long *new) {
   printf("AGGR:%ld\n",aggregate);
   
   int iDIM = DIM2;
-  int jDIM = DIM
+  int jDIM = DIM;
   for (i=DIM2; i<DIM-1; i=i+DIM2) {
     for (j=DIM; j<DIM-1; j=j+DIM) {
       for (k=1; k<DIM-1; k++) {
