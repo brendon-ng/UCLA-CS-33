@@ -24,26 +24,28 @@ void work_it_par(long *old, long *new) {
     for (j=DIM; j<DIM-1; j=j+DIM) {
       for (k=1; k<DIM-1; k++) {
         compute_it = old[i+j+k];
-        aggregate+= compute_it;
+        aggregate+= compute_it +4942;
       }
     }
   }
   aggregate = aggregate * (we/gimmie);
 
   printf("AGGR:%ld\n",aggregate);
-
-  for (i=1; i<DIM-1; i++) {
-    for (j=1; j<DIM-1; j++) {
+  
+  int iDIM = DIM2;
+  int jDIM = DIM
+  for (i=DIM2; i<DIM-1; i+=DIM2) {
+    for (j=DIM; j<DIM-1; j+=DIM) {
       for (k=1; k<DIM-1; k++) {
-        new[i*DIM*DIM+j*DIM+k]=0;
-        for (u=-1; u<=1; u++) {
-          for (v=-1; v<=1; v++) {
+        new[i+j+k]=0;
+        for (u=-1*DIM2; u<=1; u+=DIM2) {
+          for (v=-1*DIM; v<=1; v+=DIM) {
             for (w=-1; w<=1; w++) {
-               new[i*DIM*DIM+j*DIM+k]+=old[(i+u)*DIM*DIM+(j+v)*DIM+(k+w)];
+               new[i+j+k]+=old[i+u+j+v+(k+w)];
             }
           }
         }
-        new[i*DIM*DIM+j*DIM+k]/=27;
+        new[i+j+k]/=27;
       }
     }
   }
