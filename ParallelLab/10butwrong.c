@@ -14,33 +14,30 @@
 void work_it_par(long *old, long *new) {
   int i, j, k;
   int u, v, w;
-  long compute_it;
-  long func = we_need_the_func();
-  long gimmie = gimmie_the_func();
   long aggregate=1.0;
-  int jDIM, iDIM2,index;
+  long gimmie_the_func_var = gimmie_the_func();
+  long we_need_the_func_var = we_need_the_func();
+  long sum = 0.0;
   int DIM2 = DIM*DIM;
-  iDIM2 = DIM*DIM;
-  long sum;
+  int iDIM2, jDIM, index;
+  iDIM2 = DIM2;
 
-#pragma parallel for private(j,k,iDIM2,index, sum) reduction(+:aggregate)
+#pragma omp parallel for firstprivate(iDIM2) private(index,jDIM) reduction(+:sum)
   for (i=1; i<DIM-1; i++) {
     jDIM = DIM;
-    sum=0;
     for (j=1; j<DIM-1; j++) {
       index = iDIM2 + jDIM;
       for (k=1; k<DIM-1; k++) {
-        sum+= old[index+k] * func / gimmie;
+        sum+= old[index+k] * we_need_the_func_var/gimmie_the_func_var;
       }
       jDIM += DIM;
     }
     iDIM2 += DIM2;
-    aggregate += sum;
   }
-
+ 
+  aggregate += sum;
 
   printf("AGGR:%ld\n",aggregate);
-
 
   int  uDIM2, vDIM;
   iDIM2 = DIM2;
@@ -71,7 +68,7 @@ void work_it_par(long *old, long *new) {
     iDIM2 += DIM2;
   }
 
-#pragma omp parallel for private(j,k,u) reduction(+:histogrammy)
+
   for (i=1; i<DIM-1; i++) {
     for (j=1; j<DIM-1; j++) {
       for (k=1; k<DIM-1; k++) {
@@ -81,6 +78,6 @@ void work_it_par(long *old, long *new) {
         histogrammy[u]++;
       }
     }
-  }
+    }
 
 }
