@@ -37,12 +37,16 @@ void work_it_par(long *old, long *new) {
         histogrammy[u]++;
 
         new[index+k]=0;
+	int uDIM2 = -1*DIM2;
         for (u=-1; u<=1; u++) {
+	  int vDIM = -1*DIM;
           for (v=-1; v<=1; v++) {
             for (w=-1; w<=1; w++) {
-               new[index+k]+=old[u*DIM*DIM+v*DIM+(k+w)+index];
+               new[index+k]+=old[uDIM2+vDIM+(k+w)+index];
             }
+	    vDIM += DIM;
           }
+	  uDIM2 += DIM2;
         }
         new[index+k]/=27;
       }
