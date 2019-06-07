@@ -16,36 +16,30 @@ void work_it_par(long *old, long *new) {
   int u, v, w;
   long compute_it;
   long aggregate=1.0;
-  long gimmie = gimmie_the_func();
-  long we = we_need_the_func();
-  long DIM2 = DIM * DIM;
-  
-  for (i=DIM2; i<DIM-1; i=i+DIM2) {
-    for (j=DIM; j<DIM-1; j=j+DIM) {
+
+  for (i=1; i<DIM-1; i++) {
+    for (j=1; j<DIM-1; j++) {
       for (k=1; k<DIM-1; k++) {
-        compute_it = old[i+j+k];
-        aggregate+= compute_it +4942;
+        compute_it = old[i*DIM*DIM+j*DIM+k] * we_need_the_func();
+        aggregate+= compute_it / gimmie_the_func();
       }
     }
   }
-  aggregate = aggregate * (we/gimmie);
 
   printf("AGGR:%ld\n",aggregate);
-  
-  int iDIM = DIM2;
-  int jDIM = DIM;
-  for (i=DIM2; i<DIM-1; i=i+DIM2) {
-    for (j=DIM; j<DIM-1; j=j+DIM) {
+
+  for (i=1; i<DIM-1; i++) {
+    for (j=1; j<DIM-1; j++) {
       for (k=1; k<DIM-1; k++) {
-        new[i+j+k]=0;
-        for (u=-1*DIM2; u<=1; u=u+DIM2) {
-          for (v=-1*DIM; v<=1; v=v+DIM) {
+        new[i*DIM*DIM+j*DIM+k]=0;
+        for (u=-1; u<=1; u++) {
+          for (v=-1; v<=1; v++) {
             for (w=-1; w<=1; w++) {
-               new[i+j+k]+=old[i+u+j+v+(k+w)];
+               new[i*DIM*DIM+j*DIM+k]+=old[(i+u)*DIM*DIM+(j+v)*DIM+(k+w)];
             }
           }
         }
-        new[i+j+k]/=27;
+        new[i*DIM*DIM+j*DIM+k]/=27;
       }
     }
   }

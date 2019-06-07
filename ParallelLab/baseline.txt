@@ -19,7 +19,7 @@ NEWHISTO[6]:4317026
 NEWHISTO[7]:14007
 NEWHISTO[8]:1
 NEWHISTO[9]:0
-Sequential version took 9.609750 time units
+Sequential version took 12.337648 time units
 AGGR:873965492788
 NEWPARHISTO[0]:0
 NEWPARHISTO[1]:2
@@ -31,6 +31,6 @@ NEWPARHISTO[6]:4317026
 NEWPARHISTO[7]:14007
 NEWPARHISTO[8]:1
 NEWPARHISTO[9]:0
-Parallel version took 10.025463 time units
-This resulted in a 0.958534x speed-up
+Parallel version took 11.955467 time units
+This resulted in a 1.031967x speed-up
 Ending the parallelization test
