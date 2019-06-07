@@ -20,15 +20,15 @@ void work_it_par(long *old, long *new) {
   long func = we_need_the_func();
   int index;
   int DIM2= DIM*DIM;
-  int iDIM2;
+
   int jDIM;
 
-  iDIM2 = DIM2;
+
 #pragma omp parallel for private(jDIM,index,j,k,u,v,w,compute_it) reduction(+:aggregate,histogrammy)  
   for (i=1; i<DIM-1; i++) {
     jDIM = DIM;
     for (j=1; j<DIM-1; j++) {
-      index = iDIM2+jDIM;
+      index = i*DIM2+jDIM;
       for (k=1; k<DIM-1; k++) {
         compute_it = old[index+k] * func;
         aggregate+= compute_it / gimmie;
@@ -54,7 +54,7 @@ void work_it_par(long *old, long *new) {
       }
       jDIM+=DIM;
     }
-    iDIM2 += DIM2;
+
    
   }
 
