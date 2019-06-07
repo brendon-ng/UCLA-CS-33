@@ -19,8 +19,12 @@ void work_it_par(long *old, long *new) {
   long gimmie = gimmie_the_func();
   long func = we_need_the_func();
   int index;
-#pragma omp parallel for private(index,j,k,u,v,w,compute_it) reduction(+:aggregate,histogrammy)  
+  int DIM2= DIM*DIM;
+  int iDIM2 = DIM2;
+  int jDIM;
+#pragma omp parallel for private(iDIM2,jDIM,index,j,k,u,v,w,compute_it) reduction(+:aggregate,histogrammy)  
   for (i=1; i<DIM-1; i++) {
+    jDIM = DIM;
     for (j=1; j<DIM-1; j++) {
       index = i*DIM*DIM+j*DIM;
       for (k=1; k<DIM-1; k++) {
@@ -42,7 +46,9 @@ void work_it_par(long *old, long *new) {
         }
         new[index+k]/=27;
       }
+     
     }
+   
   }
 
   printf("AGGR:%ld\n",aggregate);
