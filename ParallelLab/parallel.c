@@ -20,7 +20,8 @@ void work_it_par(long *old, long *new) {
   long func = we_need_the_func();
   int index;
   int DIM2= DIM*DIM;
-
+  int negDIM = -1 * DIM;
+  int negDIM2 = -1 * DIM2;
   int jDIM;
 
 
@@ -39,9 +40,9 @@ void work_it_par(long *old, long *new) {
         histogrammy[u]++;
 
         long sum = 0;
-	int uDIM2 = -1*DIM2;
+	int uDIM2 = negDIM2;
         for (u=-1; u<=1; u++) {
-	  int vDIM = -1*DIM;
+	  int vDIM = negDIM;
           for (v=-1; v<=1; v++) {
 	    
             for (w=-1; w<=1; w++) {
